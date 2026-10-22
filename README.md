@@ -1,4 +1,4 @@
-文件关键词扫描报告器
+ **文件关键词扫描报告器** 
 
 一个用 Python 写的初学者友好小工具：手动指定一个文件夹和一组关键词，只读扫描 `.txt`、`.md`、`.csv` 文件，统计关键词出现次数和所在行号，并生成一份 Markdown 报告。
 
@@ -20,4 +20,22 @@ file_keyword_scanner_v0.1/
 │   └── data.csv
 ├── requirements.txt   # 仅标准库，无需第三方依赖
 ├── .gitignore         # 忽略 output/、__pycache__/、*.log
-└── README.md
+└── README.md!
+[模块架构图](mermaid.png)
+# -*- coding: utf-8 -*-
+"""默认配置：集中管理默认值，方便后续统一调整。"""
+
+# 默认支持的文件扩展名（小写、不带点）
+DEFAULT_EXTENSIONS = ["txt", "md", "csv"]
+
+# 默认输出目录（报告和日志都放这里）
+DEFAULT_OUTPUT_DIR = "output"
+
+# 单个文件最大读取大小（字节），超过则跳过，防止误扫超大文件
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+
+# 读取文件使用的编码（无法解码的字符会被替换，不会中断扫描）
+FILE_ENCODING = "utf-8"
+
+# 二进制探测：读取文件开头的字节数，发现 \x00 视为二进制文件
+BINARY_CHECK_BYTES = 512
