@@ -1,13 +1,18 @@
- **文件关键词扫描报告器** 
+# 文件关键词扫描报告器
 
 一个用 Python 写的初学者友好小工具：手动指定一个文件夹和一组关键词，只读扫描 `.txt`、`.md`、`.csv` 文件，统计关键词出现次数和所在行号，并生成一份 Markdown 报告。
 
-第一版是《无 UI 的核心引擎》，重点不是界面，而是把自动化流程跑通：手动触发 → 条件过滤 → 只读扫描 → 统计 → 生成报告 → 写日志。
+## 特性
 
-项目坚持只读、预览优先、不覆盖原文件。后续计划再套一个系统桌面窗口 UI，并逐步支
-持更多文档格式
+- **只读扫描**：只读取文件内容，不修改任何原文件
+- **多格式支持**：支持 `.txt`、`.md`、`.csv` 三种常见文档格式
+- **智能过滤**：自动跳过超大文件和二进制文件
+- **详细报告**：生成 Markdown 格式的扫描报告，包含关键词出现次数和行号
+- **无需依赖**：仅使用 Python 标准库，无需安装第三方包
 
-我暂时用ai写个文件树给你们看一下
+## 项目结构
+
+```
 file_keyword_scanner_v0.1/
 ├── main.py            # 命令行入口：参数解析、输入校验、流程调度
 ├── scanner.py         # 核心：遍历文件夹、过滤、读取、搜索、统计
@@ -19,23 +24,60 @@ file_keyword_scanner_v0.1/
 │   ├── readme_example.md
 │   └── data.csv
 ├── requirements.txt   # 仅标准库，无需第三方依赖
-├── .gitignore         # 忽略 output/、__pycache__/、*.log
-└── README.md!
-[模块架构图](mermaid.png)
-# -*- coding: utf-8 -*-
-"""默认配置：集中管理默认值，方便后续统一调整。"""
+└── .gitignore         # 忽略 output/、__pycache__/、*.log
+```
 
-# 默认支持的文件扩展名（小写、不带点）
-DEFAULT_EXTENSIONS = ["txt", "md", "csv"]
+## 依赖
 
-# 默认输出目录（报告和日志都放这里）
-DEFAULT_OUTPUT_DIR = "output"
+仅使用 Python 标准库，无需额外安装。
 
-# 单个文件最大读取大小（字节），超过则跳过，防止误扫超大文件
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+## 使用方法
 
-# 读取文件使用的编码（无法解码的字符会被替换，不会中断扫描）
-FILE_ENCODING = "utf-8"
+### 基本用法
 
-# 二进制探测：读取文件开头的字节数，发现 \x00 视为二进制文件
-BINARY_CHECK_BYTES = 512
+```bash
+python main.py <文件夹路径> <关键词1> [关键词2] [关键词3] ...
+```
+
+### 参数说明
+
+- `<文件夹路径>`：要扫描的文件夹路径
+- `<关键词>`：要搜索的关键词，支持多个关键词
+
+### 示例
+
+```bash
+# 扫描当前目录下的 sample_data 文件夹，搜索 "Python" 和 "扫描" 两个关键词
+python main.py sample_data Python 扫描
+
+# 扫描指定目录
+python main.py /path/to/your/folder 关键词1 关键词2
+```
+
+### 输出
+
+运行完成后，会在 `output` 目录下生成：
+
+- `scan_report.md` - 扫描结果报告
+- `scanner.log` - 运行日志
+
+## 配置说明
+
+可在 `config.py` 中修改以下默认配置：
+
+| 配置项 | 说明 | 默认值 |
+|--------|------|--------|
+| DEFAULT_EXTENSIONS | 支持的文件扩展名 | txt, md, csv |
+| DEFAULT_OUTPUT_DIR | 输出目录 | output |
+| MAX_FILE_SIZE | 单个文件最大读取大小 | 10 MB |
+| FILE_ENCODING | 文件编码 | utf-8 |
+| BINARY_CHECK_BYTES | 二进制文件探测字节数 | 512 |
+
+## 后续计划
+
+- 添加系统桌面窗口 UI
+- 支持更多文档格式
+
+## 许可证
+
+MIT License
