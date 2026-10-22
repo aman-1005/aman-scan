@@ -6,3 +6,18 @@
 
 项目坚持只读、预览优先、不覆盖原文件。后续计划再套一个系统桌面窗口 UI，并逐步支
 持更多文档格式
+
+我暂时用ai写个文件树给你们看一下
+file_keyword_scanner_v0.1/
+├── main.py            # 命令行入口：参数解析、输入校验、流程调度
+├── scanner.py         # 核心：遍历文件夹、过滤、读取、搜索、统计
+├── report.py          # 生成 Markdown 报告
+├── logger.py          # 日志写入
+├── config.py          # 默认配置（扩展名、输出目录、大小限制等）
+├── sample_data/       # 示例数据
+│   ├── notes.txt
+│   ├── readme_example.md
+│   └── data.csv
+├── requirements.txt   # 仅标准库，无需第三方依赖
+├── .gitignore         # 忽略 output/、__pycache__/、*.log
+└── README.md
